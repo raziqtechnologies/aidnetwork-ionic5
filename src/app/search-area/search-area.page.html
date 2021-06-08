@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+      Search Area Groups 
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-searchbar
+  [formControl]="searchControl"
+></ion-searchbar>
+<ion-list *ngFor="let a of areas;">
+  <ion-item (click)=selectedArea(a)>
+   <span style="font-weight: bold;">{{a.areagroup}} - {{a.areas.length}} Areas - {{a.pocs.length}} POCS</span>
+ </ion-item>
+</ion-list>
+
+</ion-content>

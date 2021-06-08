@@ -1,0 +1,164 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Search Cases</ion-title>
+    <ion-buttons slot="start" *ngIf="afAuth.auth.currentUser">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+
+      <ionic-context-menu icon="funnel">
+        <ionic-context-menu-item icon="search" (click)="action(6)" [style]="{ color: blue }">Group View
+        </ionic-context-menu-item>
+        <ionic-context-menu-item icon="search" (click)="action(1)">Search View</ionic-context-menu-item>
+        <ionic-context-menu-item  *ngIf="currentuser && currentuser.isAdmin()" icon="add" (click)="action(7)">Group Update</ionic-context-menu-item>
+      </ionic-context-menu>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <div *ngIf="!showSlide">
+
+    <ion-list>
+     
+      <ion-item>
+        <ion-label>Search By</ion-label>
+        <ion-select okText="Okay" cancelText="Dismiss"  (ionChange)="chooseSearch()" [(ngModel)]="search_option" [formControl]="chooseControl">
+          <ion-select-option [value]="1">Case Id</ion-select-option>
+          <ion-select-option [value]="2">Name</ion-select-option>
+          <ion-select-option [value]="3">Phone</ion-select-option>
+          <ion-select-option [value]="4">Status</ion-select-option>
+          <ion-select-option [value]="5">Areaname</ion-select-option>
+          <ion-select-option [value]="7">Group Update</ion-select-option>
+        </ion-select>
+      </ion-item>
+     
+        <ion-searchbar [formControl]="searchControl" [placeholder]="getPlaceHolder()"></ion-searchbar>
+     
+    </ion-list>
+    <ion-list>
+
+      <ion-item-sliding>
+        <ion-item *ngFor="let a1 of itemListData;">
+          <ion-label button (click)="selectedCase(a1)">{{a1.id}}({{a1.benname}} {{a1.benphone}})</ion-label>
+          <ion-checkbox *ngIf="allowMultiselect" slot="end" [(ngModel)]="a1.isChecked"></ion-checkbox>
+
+
+
+        </ion-item>
+
+      </ion-item-sliding>
+      <ion-item *ngIf="noresults == 2">No Results Found</ion-item>
+
+    </ion-list>
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+  </div>
+
+  <ion-slides #slides *ngIf="showSlide">
+    <ion-slide *ngIf="viewPOC">
+      <ion-card style="width: 100%;">
+        <ion-list>
+
+          <ion-item-sliding>
+            <ion-item button (click)="selectedPOC(a1,slides)" *ngFor="let a1 of pocs;" style="width:100%">
+              <div style="float:left;width:80%">{{a1.name}}</div>
+              <div style="float:right;width:20%">({{a1.count}})</div>
+            </ion-item>
+
+          </ion-item-sliding>
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+    <ion-slide *ngIf="viewStatus">
+      <ion-card style="width: 100%;">
+        <ion-list>
+          <ion-list-header *ngIf="currentRecord.POC">
+            <span style="font-weight: bold;" #statusfocus>{{currentRecord.POC}}</span>
+          </ion-list-header>
+          <ion-item-sliding>
+            <ion-item button (click)="selectedStatus(a1,slides)" *ngFor="let a1 of status;" style="width:100%">
+              <div style="float:left;width:80%">{{a1.name}}</div>
+              <div style="float:right;width:20%">({{a1.count}})</div>
+            </ion-item>
+
+          </ion-item-sliding>
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+    <ion-slide *ngIf="currentRecord.STATUS">
+      <ion-card style="width: 100%;">
+        <ion-list>
+          <ion-list-header>
+            <span style="font-weight: bold;" #areafocus>{{currentRecord.POC}} > {{currentRecord.STATUS}}</span>
+          </ion-list-header>
+          <ion-item-sliding>
+            <ion-item button (click)="selectedArea(a1,slides)" *ngFor="let a1 of areas;" style="width:100%">
+              <div style="float:left;width:80%">{{a1.name}}</div>
+              <div style="float:right;width:20%">({{a1.count}})</div>
+            </ion-item>
+
+          </ion-item-sliding>
+        </ion-list>
+      </ion-card>
+    
+      
+    </ion-slide>
+    <ion-slide *ngIf="currentRecord.STATUS">
+      <ion-card style="width: 100%;">
+        <ion-list>
+          <ion-list-header>
+            <span style="font-weight: bold;" #priorityfocus>{{currentRecord.POC}} > {{currentRecord.AREA}} >
+              {{currentRecord.STATUS}}</span>
+          </ion-list-header>
+          <ion-item-sliding>
+            <ion-item button (click)="selectedPriority(a1,slides)" *ngFor="let a1 of priority;" style="width:100%">
+              <div style="float:left;width:80%">{{a1.name}}</div>
+              <div style="float:right;width:20%">({{a1.count}})</div>
+            </ion-item>
+
+          </ion-item-sliding>
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+    <ion-slide *ngIf="currentRecord.PRIORITY">
+      <ion-card style="width: 100%;">
+        <ion-list>
+          <ion-list-header>
+            <span style="font-weight: bold;">{{currentRecord.POC}} > {{currentRecord.AREA}} > {{currentRecord.STATUS}} >
+              {{currentRecord.PRIORITY}}</span>
+          </ion-list-header>
+          <ion-item-sliding>
+            <ion-item button (click)="selectedCase(a1)" *ngFor="let a1 of itemListData;" style="width:100%">
+              <div style="float:left;width:60%">{{a1.benname}}</div>
+              <div style="float:right;width:40%">({{a1.benphone}})</div>
+            </ion-item>
+
+          </ion-item-sliding>
+        </ion-list>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+
+
+
+
+</ion-content>
+<ion-footer>
+  <div class="row submit-button-container">
+    <div class="col-md-4">
+
+
+      <div class="row submit-button-container" *ngIf="currentuser && currentuser.isAdmin() && option==7">
+        <ion-button expand="full" (click)="updateStatus('Rejected')">Reject All</ion-button>
+      </div>
+      <div class="row submit-button-container" *ngIf="currentuser && currentuser.isAdmin() && option==7">
+        <ion-button expand="full" (click)="updateStatus('Closed')">Close All</ion-button>
+      </div>
+    </div>
+  </div>
+</ion-footer>

@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Case Comments</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="edit-case"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-card text-center *ngFor="let comment of comments">
+    <ion-card-header>
+      <ion-card-title style="font-size: small;">Comment By {{comment.role}} on Date {{getActualDate(comment.createdate)}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div>
+        {{comment.comments}}
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <form class="addComments" *ngIf="canShow()"[formGroup]="commentForm" novalidate (ngSubmit)="onSubmit(commentForm.value)">
+    <ion-list>
+
+      <ion-item>
+        <ion-label position="stacked">Your Comments</ion-label>
+        <ion-textarea type="text" formControlName="comment" class="form-control" required rows="6" cols="20">
+        </ion-textarea>
+      </ion-item>
+    </ion-list>
+    <div class="row submit-button-container">
+      <div class="col-md-4">
+        <div class="row submit-button-container">
+          <ion-button expand="full" type="submit" [disabled]="!commentForm.valid">Add Comment</ion-button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+</ion-content>

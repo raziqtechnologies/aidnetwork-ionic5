@@ -1,0 +1,115 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Create Approved Users</ion-title>
+
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <p></p>
+
+  <form class="create-form" [formGroup]="userForm" novalidate (ngSubmit)="onSubmit(userForm.value)">
+
+    <div class="form-group">
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="text" formControlName="emailid" class="form-control" required></ion-input>
+      </ion-item>
+
+    </div>
+
+    <div class="form-group">
+      <ion-item>
+        <ion-label position="floating">First Name</ion-label>
+        <ion-input type="text" formControlName="firstname" class="form-control" required></ion-input>
+      </ion-item>
+
+    </div>
+
+    <div class="form-group">
+      <ion-item>
+        <ion-label position="floating">Last Name</ion-label>
+        <ion-input type="text" formControlName="lastname" class="form-control"></ion-input>
+      </ion-item>
+    </div>
+
+    <div class="form-group">
+      <ion-item>
+        <ion-label position="floating">User Role</ion-label>
+        <ion-select aria-required="required" formControlName="role" okText="OK" cancelText="CANCEL">
+          <ion-select-option value="">--Select--</ion-select-option>
+          <ion-select-option value="VOLUNTEER">VOLUNTEER</ion-select-option>
+          <ion-select-option value="POC">POC</ion-select-option>
+          <ion-select-option value="OPERATOR">OPERATOR</ion-select-option>
+          <ion-select-option value="ADMINISTRATOR">ADMINISTRATOR</ion-select-option>
+
+        </ion-select>
+      </ion-item>
+    </div>
+
+    <div class="form-group" *ngIf="userForm.value.role == 'VOLUNTEER'">
+      <ion-item>
+        <ion-label position="floating">POC</ion-label>
+        <ion-select formControlName="parentid" >
+          <ion-select-option *ngFor="let poc of pocs" [value]="poc.emailid">{{poc.firstname}} - {{poc.lastname}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+
+    <div class="form-group">
+      <ion-item>
+        <ion-label position="floating">Mobile Number</ion-label>
+        <ion-input type="text" formControlName="mobilenumber" class="form-control" required></ion-input>
+      </ion-item>
+
+    </div>
+
+    <div class="form-group">
+      <ion-item>
+        <ion-label position="floating">NGO</ion-label>
+        <ion-input type="text" formControlName="ngo" class="form-control" required></ion-input>
+      </ion-item>
+    </div>
+
+    <div class="form-group">
+      <ion-item>
+        <ion-label position="floating">Pincode</ion-label>
+        <ion-input type="text" formControlName="pincode" class="form-control" required></ion-input>
+      </ion-item>
+    </div>
+
+    <div class="form-group">
+      <ion-item>
+        <ion-label position="floating">Address Line</ion-label>
+        <ion-input type="text" formControlName="addressline" class="form-control" required></ion-input>
+      </ion-item>
+    </div>
+
+    <div class="form-group">
+      <ion-item>
+        <ion-label position="floating">Land Mark</ion-label>
+        <ion-input type="text" formControlName="landmark" class="form-control" required></ion-input>
+      </ion-item>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <div class="row submit-button-container">
+      <ion-button expand="full" type="submit" [disabled]="!userForm.valid">Add User</ion-button>
+    </div>
+
+
+  </form>
+</ion-content>

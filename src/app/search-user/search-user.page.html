@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Search  Users</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-searchbar
+  [formControl]="searchControl"
+></ion-searchbar>
+<ion-list *ngFor="let a of groupedusers;">
+  <ion-list-header>
+   <span style="font-weight: bold;text-transform: capitalize;">{{a.role}}({{a.values.length}})</span>
+  </ion-list-header>
+  <ion-item-sliding>
+    <ion-item button (click)="selectedUser(a1)" *ngFor="let a1 of a.values;">
+          <div >{{a1.firstname}} - {{a1.lastname}}</div>
+          
+    </ion-item>
+  
+ </ion-item-sliding>
+</ion-list>
+</ion-content>

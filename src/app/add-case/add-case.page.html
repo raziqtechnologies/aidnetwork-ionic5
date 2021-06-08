@@ -1,0 +1,355 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add Case</ion-title>
+
+
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <form class="create-form" [formGroup]="addCaseForm" novalidate (ngSubmit)="onSubmit(addCaseForm.value)">
+
+    <ion-item-divider color="secondary">
+      <ion-label>
+        General Info
+      </ion-label>
+    </ion-item-divider>
+
+    <div class="form-group">
+      <ion-item>
+        <ion-label position="fixed">Project:</ion-label>
+        <ion-input readonly>Carona Project</ion-input>
+      </ion-item>
+    </div>
+    <div class="form-group">
+      <ion-item>
+        <ion-label position="floating">Caller Category:</ion-label>
+        <ion-select aria-required="required" (ionChange)="loadTemplate()"   (ionClick)="loadTemplate()"  formControlName="callercategory" okText="Okay" cancelText="Dismiss">
+          <ion-select-option    *ngFor="let cc of callercategory" [value]="cc.name">{{cc.name}}
+          </ion-select-option>
+          
+        </ion-select>
+      </ion-item>
+    
+    </div>
+
+    <ion-item-divider color="secondary">
+      <ion-label>
+        Caller Info
+      </ion-label>
+    </ion-item-divider>
+
+
+
+    <div class="form-group">
+      <ion-item>
+        <ion-label position="floating">Caller Name:</ion-label>
+        <ion-input type="text" formControlName="callername" class="form-control" required></ion-input>
+        <div class="validation-errors">
+          <ng-container *ngFor="let validation of validation_messages.callername">
+            <div class="error-message" *ngIf="addCaseForm.get('callername').hasError(validation.type) && (addCaseForm.get('callername').dirty || addCaseForm.get('callername').touched)">
+              {{ validation.message }}
+            </div>
+          </ng-container>
+        </div>
+      </ion-item>
+    </div>
+
+    <div class="form-group">
+      <ion-item>
+      <ion-label position="floating">Caller Phone:</ion-label>
+      <ion-input type="number" maxlength="10" formControlName="callerphone" class="form-control" required></ion-input>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.callerphone">
+          <div class="error-message" *ngIf="addCaseForm.get('callerphone').hasError(validation.type) &&
+             (addCaseForm.get('callerphone').dirty || addCaseForm.get('callerphone').touched)">
+            {{validation.message}}</div>
+       </ng-container>
+      </div>
+      </ion-item>
+    </div>
+
+    <ion-item-divider color="secondary">
+      <ion-label>
+        Beneficiary Info   
+      </ion-label>
+      <ion-checkbox slot="start" formControlName="sameascaller" (ionChange)="sameAsCaller()"></ion-checkbox>
+    </ion-item-divider>
+
+    <div class="form-group">
+      <ion-item>
+        <ion-label position="floating">Benefiaciary Name:</ion-label>
+        <ion-input type="text" formControlName="benname" class="form-control" required></ion-input>
+        <div class="validation-errors">
+            <ng-container *ngFor="let validation of validation_messages.benname">
+          <div class="error-message"
+            *ngIf="addCaseForm.get('benname').hasError(validation.type) && (addCaseForm.get('benname').dirty || addCaseForm.get('benname').touched)">
+            {{validation.message}}</div>
+        </ng-container>
+      </div>
+      </ion-item>
+    </div>
+
+
+    <div class="form-group">
+      <ion-item>
+      <ion-label position="floating">Benefiaciary Phone:</ion-label>
+      <ion-input type="number"   maxlength="10" formControlName="benphone" class="form-control" required></ion-input>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.benphone">
+          <div class="error-message" *ngIf="addCaseForm.get('benphone').hasError(validation.type) &&
+             (addCaseForm.get('benphone').dirty || addCaseForm.get('benphone').touched)">
+            {{validation.message}}</div>
+       </ng-container>
+      </div>
+      </ion-item>
+    </div>
+
+    <div class="form-group">
+      <ion-item>
+      <ion-label position="floating">Ration Card Type</ion-label>
+      <ion-select aria-required="required" formControlName="bencardtype" okText="Okay" cancelText="Dismiss">
+        <ion-select-option value="">--Select--</ion-select-option>
+        <ion-select-option value="ANTYODAYA">ANTYODAYA</ion-select-option>
+        <ion-select-option value="APL">APL</ion-select-option>
+        <ion-select-option value="BPL">BPL</ion-select-option>
+        <ion-select-option value="NO CARD">NO CARD</ion-select-option>
+        <ion-select-option value="NOT APPLICABLE">NOT APPLICABLE</ion-select-option>
+      </ion-select>
+    </ion-item>
+    </div>
+
+    <div class="form-group">
+      <ion-item>
+      <ion-label position="floating">Description</ion-label>
+      <ion-textarea type="text" formControlName="bendescription" class="form-control" required rows="6" cols="20"></ion-textarea>
+        <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.bendescription">
+          <div class="error-message"
+          *ngIf="addCaseForm.get('bendescription').hasError(validation.type) && (addCaseForm.get('bendescription').dirty || addCaseForm.get('bendescription').touched)">
+          {{validation.message}}</div>
+      </ng-container>
+      </div>
+    </ion-item>
+    </div>
+
+    <ion-item-divider color="secondary">
+      <ion-label>
+        Request Info
+      </ion-label>
+    </ion-item-divider>
+
+
+    <div class="form-group">
+      <ion-item>
+      <ion-label position="floating">Case Category</ion-label>  
+      <ion-select aria-required="required" formControlName="casecategory" okText="Okay" cancelText="Dismiss">
+        <ion-select-option   *ngFor="let cc of casecategory" [value]="cc.name">{{cc.name}}
+        </ion-select-option>
+      </ion-select>
+      </ion-item>
+    </div>
+
+   
+
+    <div class="form-group">
+      <ion-item>
+      <ion-label position="floating">Case Description</ion-label>
+      <ion-textarea type="text" formControlName="casedescription" class="form-control" required rows="6" cols="20"></ion-textarea>
+        <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.casedescription">
+          <div class="error-message"
+          *ngIf="addCaseForm.get('casedescription').hasError(validation.type) && (addCaseForm.get('casedescription').dirty || addCaseForm.get('casedescription').touched)">
+          {{validation.message}}</div>
+      </ng-container>
+      </div>
+    </ion-item>
+    </div>
+
+
+    <div class="form-group">
+      <ion-item>
+      <ion-label position="floating">Affected person Count</ion-label>
+      <ion-input type="number" formControlName="caseaffectno" class="form-control" required></ion-input>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.caseaffectno">
+          <div class="error-message" *ngIf="addCaseForm.get('caseaffectno').hasError(validation.type) &&
+             (addCaseForm.get('caseaffectno').dirty || addCaseForm.get('caseaffectno').touched)">
+            {{validation.message}}</div>
+       </ng-container>
+      </div>
+      </ion-item>
+    </div>
+
+
+
+    <div class="form-group">
+      <ion-item>
+        <ion-label position="floating">Priority</ion-label> 
+        
+      <ion-select aria-required="required" formControlName="casepriority" okText="Okay" cancelText="Dismiss">
+        <ion-select-option value="">--Select--</ion-select-option>
+        <ion-select-option value="Critical">Critical</ion-select-option>
+        <ion-select-option value="High">High</ion-select-option>
+        <ion-select-option value="Medium">Medium</ion-select-option>
+        <ion-select-option value="Low">Low</ion-select-option>
+        <ion-select-option value="To Be Decided">To Be Decided</ion-select-option>
+      </ion-select>
+      </ion-item>
+    </div>
+
+    <ion-item-divider color="secondary">
+      <ion-label>
+        Area Allocation
+      </ion-label>
+    </ion-item-divider>
+
+    
+    <div class="form-group">
+      
+      <ion-item>
+        <ion-label position="fixed">
+          Aid Areas
+        </ion-label>
+        <ionic-selectable item-content formControlName="area" required itemValueField="id" itemTextField="area" [items]="slicedareas" groupValueField="areagroup"
+        groupTextField="areagroup" [canSearch]="true"  (onSearch)="searchAreas($event)" (onChange)="areaChange($event)" [hasInfiniteScroll]="true" (onInfiniteScroll)="getMoreAreas($event)">
+        <ng-template ionicSelectableGroupTemplate let-group="group" >
+          {{group.text}}
+        </ng-template>
+        </ionic-selectable>
+        
+      </ion-item>
+      <ion-item *ngIf="selectedArea">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+                Area Group:
+            </ion-col>
+            <ion-col>
+              {{selectedArea.areagroup}} 
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+                City:
+            </ion-col>
+            <ion-col>
+              {{selectedArea.city}} 
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+                State:
+            </ion-col>
+            <ion-col>
+              {{selectedArea.state}} 
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+                Country:
+            </ion-col>
+            <ion-col>
+              {{selectedArea.country}} 
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </div>
+
+    <!-- <div class="form-group" *ngIf="addCaseForm.get('area').value">
+      
+      <ion-item>
+        <ion-label position="fixed">
+          POC
+        </ion-label>
+        <ion-select formControlName="poc" required (ionChange)="pocChange($event)">
+          <ion-select-option   *ngFor="let poc of pocs" [value]="poc">{{poc.firstname}} - {{poc.lastname}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+
+    <div class="form-group" *ngIf="addCaseForm.get('poc').value && isPOC">
+      
+      <ion-item>
+        <ion-label position="fixed">
+          Volunteer
+        </ion-label>
+        <ion-select formControlName="volunteer" required >
+          <ion-select-option   *ngFor="let vol of volunteers" [value]="vol">{{vol.firstname}} - {{vol.lastname}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div> -->
+
+    
+
+
+    <div class="form-group">
+      <ion-item>
+      <ion-label position="floating">Pincode</ion-label>
+      <ion-input type="number" formControlName="pincode" class="form-control" required></ion-input>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.pincode">
+          <div class="error-message" *ngIf="addCaseForm.get('pincode').hasError(validation.type) &&
+             (addCaseForm.get('pincode').dirty || addCaseForm.get('pincode').touched)">
+            {{validation.message}}</div>
+       </ng-container>
+      </div>
+      </ion-item>
+    </div>
+
+
+
+    <div class="form-group">
+      <ion-item>
+        <ion-label position="floating">Address Line</ion-label>
+      <ion-textarea type="text" formControlName="address1" class="form-control" required rows="6" cols="20"></ion-textarea>
+        <div class="validation-errors">
+            <ng-container *ngFor="let validation of validation_messages.address1">
+          <div class="error-message"
+            *ngIf="addCaseForm.get('address1').hasError(validation.type) && (addCaseForm.get('address1').dirty || addCaseForm.get('address1').touched)">
+            {{validation.message}}</div>
+        </ng-container>
+      </div>
+      </ion-item>
+    </div>
+
+
+    <div class="form-group">
+      <ion-item>
+        <ion-label position="floating">Landmark</ion-label>
+        <ion-input type="text" formControlName="landmark" class="form-control" required></ion-input>
+        <div class="validation-errors">
+            <ng-container *ngFor="let validation of validation_messages.landmark">
+          <div class="error-message"
+            *ngIf="addCaseForm.get('landmark').hasError(validation.type) && (addCaseForm.get('landmark').dirty || addCaseForm.get('landmark').touched)">
+            {{validation.message}}</div>
+        </ng-container>
+      </div>
+      </ion-item>
+    </div>
+
+
+    <div class="row submit-button-container">
+      <div class="col-md-4">
+
+
+        <div class="row submit-button-container">
+          <ion-button expand="full" type="submit" [disabled]="!addCaseForm.valid">Add Case</ion-button>
+        </div>
+
+        
+      </div>
+    </div>
+
+  </form>
+
+
+
+</ion-content>

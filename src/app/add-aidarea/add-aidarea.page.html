@@ -1,0 +1,114 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add Area Group</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <form class="create-form" [formGroup]="areaForm" novalidate (ngSubmit)="onSubmit(areaForm.value)">
+
+
+    <div class="form-group">
+      <ion-item>
+        <ion-label position="floating">Area Group</ion-label>
+        <ion-input type="text" formControlName="areagroup" class="form-control" required></ion-input>
+      </ion-item>
+    </div>
+
+    
+    <div class="form-group" *ngIf="pocs">
+      <ion-item>
+        <ion-label position="fixed">Assign POC</ion-label>
+          <ion-select formControlName="pocs" required multiple="true">
+          <ion-select-option *ngFor="let poc of pocs" [value]="poc">{{poc.firstname}} - {{poc.lastname}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+
+
+    <div class="form-group" >
+      <ion-item>
+        <ion-label position="fixed">Assign Area</ion-label>
+        <ionic-selectable
+    #areaComponent
+    formControlName="selectedarea"
+    itemValueField="id"
+    itemTextField="area"
+    [items]="areas"
+    [canSearch]="true"
+    [hasInfiniteScroll]="true"
+    (onSearch)="searchAreas($event)"
+    (onInfiniteScroll)="getMoreAreas($event)"
+    [isMultiple]="true"
+    [canClear]="true"
+    (onSearchFail)="onSearchFail($event)"
+    (onSearchSuccess)="onSearchSuccess($event)">
+    <ng-template ionicSelectableItemTemplate let-area="item">
+      {{area.area}}
+    </ng-template>
+    <ng-template ionicSelectableAddItemTemplate let-area="item">
+      <form [formGroup]="newAreaForm" novalidate>
+        <ion-list>
+          <ion-item-divider>
+            Add Area
+          </ion-item-divider>
+          <ion-item>
+            No Area found. Would you like to add one?
+          </ion-item>
+          <ion-item>
+            <ion-label>Name</ion-label>
+            <ion-input
+              type="text"
+              formControlName="area"
+              autocorrect="off"
+              autocapitalize="none">
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>City</ion-label>
+            <ion-select formControlName="city" required>
+              <ion-select-option *ngFor="let cityname of cities" [value]="cityname">{{cityname}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+      </form>
+      <ion-footer>
+        <ion-toolbar>
+          <ion-row>
+            <ion-col col-6>
+              <button ion-button full no-margin
+                (click)="areaComponent.hideAddItemTemplate()">
+                Cancel
+              </button>
+            </ion-col>
+            <ion-col col-6>
+              <button ion-button full no-margin
+                (click)="addArea()"
+                [disabled]="!newAreaForm.valid">
+                Add Area
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ionic-selectable>
+      </ion-item>
+    </div>
+
+    <div class="row submit-button-container">
+      <ion-button expand="full" type="submit" [disabled]="!areaForm.valid">Add Area Group</ion-button>
+    </div>
+
+    
+
+  </form>
+
+
+</ion-content>

@@ -1,0 +1,101 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+     User Profile
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content padding>
+  
+
+
+  
+  <div class="form-control" *ngIf="afAuth.auth.currentUser && currentuser">
+  <ion-list *ngIf="afAuth.auth.currentUser">
+    <ion-item>
+      <ion-label>
+        Name
+      </ion-label>
+      <ion-label>
+        {{currentuser.firstname}} {{currentuser.lastname}} 
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        Role
+      </ion-label>
+      <ion-label>
+        {{currentuser.role}}
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        Email
+      </ion-label>
+      <ion-label>
+        {{currentuser.emailid}}
+      </ion-label>
+    </ion-item>
+  
+    </ion-list>
+  </div>
+
+ 
+
+
+  
+  <!-- <ion-item button href="/search-case">
+    <ion-label>
+      Search Case
+    </ion-label>
+  </ion-item>
+
+  <ion-item button href="/add-case">
+    <ion-label>
+      Add Case
+    </ion-label>
+  </ion-item>
+
+  <ion-item button href="/add-users">
+    <ion-label>
+      Add User
+    </ion-label>
+  </ion-item>
+
+  <ion-item button href="/add-aidarea">
+    <ion-label>
+      Add Area
+    </ion-label>
+  </ion-item>
+
+  <ion-item button href="/search-area">
+    <ion-label>
+      Search Area
+    </ion-label>
+  </ion-item>
+
+  <ion-item button href="/search-user">
+    <ion-label>
+      Search User
+    </ion-label>
+  </ion-item> -->
+
+  <!-- <ion-item button *ngIf="isAdmin" (click)="importAreas()">
+    <ion-label>
+      Import Areas
+    </ion-label>
+  </ion-item> -->
+
+</ion-content>
+<ion-footer>
+
+
+  
+</ion-footer>

@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start"> <ion-back-button defaultHref="home"></ion-back-button> </ion-buttons>
+    <ion-title>Approved Users</ion-title>
+  </ion-toolbar>
+ 
+</ion-header>
+
+<ion-content padding>
+  <div *ngFor="let item of items" class="list-group-item list-group-item-action flex-column align-items-start">
+    <div class="row">
+      <div class="col col-md-8 text-col">
+        <h5 class="mb-1">{{item.payload.doc.data().firstname}} {{item.payload.doc.data().secondname}}</h5>
+        <small>Organization: {{item.payload.doc.data().organization}}</small><br/>
+        <small>Email Id: {{item.payload.doc.data().emailid}}</small>
+      </div>
+      
+    </div>
+  </div>
+  <ion-button (click)="addUser()">Add User</ion-button>
+</ion-content>
